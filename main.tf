@@ -10,62 +10,6 @@ module "provider" {
   hostname_format = var.hostname_format
 }
 
-# module "provider" {
-#   source = "./provider/scaleway"
-#
-#   organization_id = var.scaleway_organization_id
-#   access_key      = var.scaleway_access_key
-#   secret_key      = var.scaleway_secret_key
-#   zone            = var.scaleway_zone
-#   type            = var.scaleway_type
-#   image           = var.scaleway_image
-#   hosts           = var.node_count
-#   hostname_format = var.hostname_format
-# }
-
-# module "provider" {
-#   source = "./provider/digitalocean"
-#
-#   token           = var.digitalocean_token
-#   ssh_keys        = var.digitalocean_ssh_keys
-#   region          = var.digitalocean_region
-#   size            = var.digitalocean_size
-#   image           = var.digitalocean_image
-#   hosts           = var.node_count
-#   hostname_format = var.hostname_format
-# }
-
-# module "provider" {
-#   source = "./provider/packet"
-#
-#   auth_token       = var.packet_auth_token
-#   project_id       = var.packet_project_id
-#   billing_cycle    = var.packet_billing_cycle
-#   facility         = [var.packet_facility]
-#   plan             = var.packet_plan
-#   operating_system = var.packet_operating_system
-#   hosts            = var.node_count
-#   hostname_format  = var.hostname_format
-# }
-
-# module "provider" {
-#   source = "./provider/vsphere"
-
-#   hosts                   = var.node_count
-#   hostname_format         = var.hostname_format
-#   vsphere_server          = var.vsphere_server
-#   vsphere_datacenter      = var.vsphere_datacenter
-#   vsphere_cluster         = var.vsphere_cluster
-#   vsphere_network         = var.vsphere_network
-#   vsphere_datastore       = var.vsphere_datastore
-#   vsphere_vm_template     = var.vsphere_vm_template
-#   vsphere_vm_linked_clone = var.vsphere_vm_linked_clone
-#   vsphere_vm_num_cpus     = var.vsphere_vm_num_cpus
-#   vsphere_vm_memory       = var.vsphere_vm_memory
-#   vsphere_user            = var.vsphere_user
-#   vsphere_password        = var.vsphere_password
-# }
-
 module "swap" {
   source = "./service/swap"
 
@@ -74,11 +18,9 @@ module "swap" {
 }
 
 module "dns" {
-  source = "./dns/cloudflare"
-
+  source     = "./dns/hcloud"
   node_count = var.node_count
-  email      = var.cloudflare_email
-  api_token  = var.cloudflare_api_token
+  token      = var.hcloud_dnstoken
   domain     = var.domain
   public_ips = module.provider.public_ips
   hostnames  = module.provider.hostnames

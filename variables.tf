@@ -21,6 +21,10 @@ variable "hcloud_token" {
   default = ""
 }
 
+variable "hcloud_dnstoken" {
+  default = ""
+}
+
 variable "hcloud_ssh_keys" {
   type    = list(string)
   default = [""]
