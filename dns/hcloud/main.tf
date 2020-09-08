@@ -27,7 +27,7 @@ provider "hetznerdns" {
 
 
 resource "hetznerdns_zone" "selected_domain" {
-  name = "${var.domain}."
+  name = var.domain
   ttl = 300
 }
 
