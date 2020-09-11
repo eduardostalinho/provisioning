@@ -20,6 +20,10 @@ variable "hostnames" {
 variable "public_ips" {
   type = list
 }
+variable "nameservers" {
+  type = list
+  default = ["helium.ns.hetzner.de.", "hydrogen.ns.hetzner.com.", "oxygen.ns.hetzner.com."]
+}
 
 provider "hetznerdns" {
   apitoken = var.token
@@ -58,6 +62,17 @@ resource "hetznerdns_record" "wildcard" {
   type    = "CNAME"
   ttl     = "300"
   value   = "${hetznerdns_zone.selected_domain.name}."
+}
+
+resource "hetznerdns_record" "nameservers" {
+  depends_on = [hetznerdns_record.domain]
+
+  zone_id = hetznerdns_zone.selected_domain.id
+  count = length(var.nameservers)
+  name    = "@"
+  type    = "NS"
+  ttl     = "300"
+  value   =  var.nameservers[count.index]
 }
 
 output "domains" {
