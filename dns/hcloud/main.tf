@@ -34,7 +34,7 @@ resource "hetznerdns_zone" "selected_domain" {
 resource "hetznerdns_record" "hosts" {
   count   = var.node_count
   zone_id = hetznerdns_zone.selected_domain.id
-  name    = "${element(var.hostnames, count.index)}.${hetznerdns_zone.selected_domain.name}"
+  name    = element(var.hostnames, count.index)
   value   = element(var.public_ips, count.index)
   type    = "A"
   ttl     = "300"
@@ -44,7 +44,7 @@ resource "hetznerdns_record" "hosts" {
 resource "hetznerdns_record" "domain" {
   zone_id = hetznerdns_zone.selected_domain.id
 
-  name    = hetznerdns_zone.selected_domain.name
+  name    = "@"
   type    = "A"
   ttl     = "300"
   value = element(var.public_ips, 0)
@@ -57,7 +57,7 @@ resource "hetznerdns_record" "wildcard" {
   name    = "*"
   type    = "CNAME"
   ttl     = "300"
-  value   = hetznerdns_zone.selected_domain.name
+  value   = "${hetznerdns_zone.selected_domain.name}."
 }
 
 output "domains" {
