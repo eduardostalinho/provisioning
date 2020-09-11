@@ -1,5 +1,6 @@
 module "provider" {
   source = "./provider/hcloud"
+  apt_packages = ["ceph-common"]
 
   token           = var.hcloud_token
   ssh_keys        = var.hcloud_ssh_keys
